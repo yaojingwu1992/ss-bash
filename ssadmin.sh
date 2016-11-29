@@ -69,7 +69,7 @@ create_json () {
 }
 
 run_ssserver () {
-    $SSSERVER -qq -c $JSON_FILE 2>/dev/null >/dev/null &
+    $SSSERVER -c $JSON_FILE -d restart 2>/dev/null >/dev/null &
     echo $! > $SSSERVER_PID 
 }
 
@@ -246,6 +246,7 @@ $PORT $PWORD $TLIMIT" >> $USER_FILE;
 # 更新流量记录文件
     update_or_create_traffic_file_from_users
     calc_remaining
+    echo "成功新增用户："$PORT
 }
 
 del_user () {
@@ -274,6 +275,7 @@ del_user () {
 # 更新流量记录文件
     update_or_create_traffic_file_from_users
     calc_remaining
+    echo "成功删除用户："$PORT
 }
 
 change_user () {
@@ -320,6 +322,7 @@ change_user () {
         echo "此用户不存在!"
         return 1
     fi
+    echo "用户："$PORT"信息已经更新"
 }
 
 change_passwd () {
@@ -364,6 +367,7 @@ change_passwd () {
         echo "此用户不存在!"
         return 1
     fi
+    echo "用户："$PORT"信息已经更新"
 }
 
 change_limit () {
@@ -402,6 +406,7 @@ change_limit () {
         echo "此用户不存在!"
         return 1
     fi
+    echo "用户："$PORT"信息已经更新"
 }
 
 change_all_limit () {
@@ -428,6 +433,7 @@ change_all_limit () {
     # 更新流量记录文件
     update_or_create_traffic_file_from_users
     calc_remaining
+    echo "所有用户流量限制已经更新"
 }
 
 show_user () {
@@ -529,6 +535,7 @@ reset_limit () {
             return 1
         fi
     fi
+    echo "用户："$PORT"信息已经更新"
 }
 
 reset_used () {
@@ -583,6 +590,7 @@ reset_used () {
     rm $TRAFFIC_LOG.lock
     # 更新流量记录文件
     calc_remaining
+    echo "用户："$PORT" 流量已经重置为0"
 }
 
 if [ "$#" -eq 0 ]; then
